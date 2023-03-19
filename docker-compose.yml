@@ -1,0 +1,20 @@
+version: "3.2"
+services:
+  nginx:
+    image: ghcr.io/hoglandets-it/error-page:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+  proxy:
+    image: haproxy:latest
+    container_name: proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./certs:/cert
+
